@@ -1,0 +1,116 @@
+{'ampm': 'PM',
+'aw_lg_ampm': 'PM',
+'away_ampm': 'PM',
+'away_code': 'tba',
+'away_division': 'E',
+'away_file_code': 'tb',
+'away_league_id': '103',
+'away_loss': '5',
+'away_name_abbrev': 'TB',
+'away_preview_link': '/mlb/gameday/index.jsp?gid=2018_03_04_tbamlb_nyamlb_1&mode=p
+review&c_id=mlb',
+'away_recap_link': '/mlb/gameday/index.jsp?gid=2018_03_04_tbamlb_nyamlb_1&mode=recap&c_id=mlb',
+'away_sport_code': 'mlb',
+'away_team_city': 'Tampa Bay',
+'away_team_errors': '1',
+'away_team_hits': '13',
+'away_team_id': '139',
+'away_team_link': '/clubs/in
+dex.jsp?cid=t139',
+'away_team_name': 'Rays',
+'away_team_runs': '9',
+'away_time': '1:05',
+'away_time_zone': 'ET',
+'away_win': '6',
+'balls': '0',
+'day': 'SUN',
+'description': '',
+'double_header_sw': 'N',
+'first_pitch_et': '',
+'game_data_directory': '/components/game/mlb/ye
+ar_2018/month_03/day_04/gid_2018_03_04_tbamlb_nyamlb_1',
+'game_nbr': '1',
+'game_pk': '533933',
+'game_type': 'S',
+'gameday_link': '2018_03_04_tbamlb_nyamlb_1',
+'gameday_sw': 'Y',
+'highlights_available': 'N',
+'hm_lg_ampm': 'PM',
+'home_ampm': 'PM',
+'home_code': 'nya',
+'home
+_division': 'E',
+'home_file_code': 'nyy',
+'home_league_id': '103',
+'home_loss': '2',
+'home_name_abbrev': 'NYY',
+'home_preview_link': '/mlb/gameday/index.jsp?gid=2018_03_04_tbamlb_nyamlb_1&mode=preview&c_id=mlb',
+'home_recap_link': '/mlb/gameday/index.jsp?gid=2018_03_04_t
+bamlb_nyamlb_1&mode=recap&c_id=mlb',
+'home_sport_code': 'mlb',
+'home_team_city': 'NY Yankees',
+'home_team_errors': '2',
+'home_team_hits': '6',
+'home_team_id': '147',
+'home_team_link': '/clubs/index.jsp?cid=t147',
+'home_team_name': 'Yankees',
+'home_team_runs': '1',
+'home_
+time': '1:05',
+'home_time_zone': 'ET',
+'home_win': '8',
+'id': '2018/03/04/tbamlb-nyamlb-1',
+'ind': 'F',
+'inning': '9',
+'inning_break_length': '',
+'inning_state': '',
+'is_no_hitter': 'N',
+'is_perfect_game': 'N',
+'league': 'AA',
+'location': 'Tampa,
+FL',
+'note': '',
+'origin
+al_date': '2018/03/04',
+'outs': '3',
+'pbp_last': 'Chris Gittens grounds out,
+shortstop Jermaine Palacios to first baseman Michael Russell.  ',
+'preview': '/mlb/gameday/index.jsp?gid=2018_03_04_tbamlb_nyamlb_1&mode=preview&c_id=mlb',
+'reason': '',
+'runner_on_base_status':
+ '0',
+'scheduled_innings': '9',
+'status': 'Final',
+'strikes': '0',
+'tbd_flag': 'N',
+'tiebreaker_sw': 'N',
+'time': '1:05',
+'time_aw_lg': '1:05',
+'time_date': '2018/03/04 1:05',
+'time_date_aw_lg': '2018/03/04 1:05',
+'time_date_hm_lg': '2018/03/04 1:05',
+'time_hm_lg': '1:05
+',
+'time_zone': 'ET',
+'time_zone_aw_lg': '-5',
+'time_zone_hm_lg': '-5',
+'top_inning': 'N',
+'tz_aw_lg_gen': 'ET',
+'tz_hm_lg_gen': 'ET',
+'venue': 'George M. Steinbrenner Field',
+'venue_id': '2523',
+'venue_w_chan_loc': 'USFL0481',
+'wrapup_link': '/mlb/gameday/index.jsp?gid=
+2018_03_04_tbamlb_nyamlb_1&mode=wrap&c_id=mlb'}
+
+
+
+
+
+
+ 1    Click Ctrl + h or Search -> Replace on the top menu
+ 2    Under the Search Mode group, select Regular expression
+ 3    In the Find what text field, type ,\s*
+ 4    In the Replace with text field, type ,\n
+ 5    Click Replace All
+
