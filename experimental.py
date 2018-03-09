@@ -3,8 +3,11 @@ from tkinter import *
 from tkinter import Tk, font
 import PIL
 from PIL import ImageTk, Image
+import threading
 import datetime
 import mlbgame
+
+
 root= Tk()
 #root.attributes("-fullscreen", True)
 root.title("Scoreboard")
@@ -22,7 +25,7 @@ month = now.month
 day = now.day
 
 
-month = mlbgame.games(2018, 3,4, home='Yankees',away='Yankees')
+month = mlbgame.games(2018, 3,8, home='Mariners',away='Mariners')
 games = mlbgame.combine_games(month)
 for game in games:
     #print(game.__dict__)
@@ -33,9 +36,9 @@ for game in games:
     idd=game.game_id
 
 
-box = mlbgame.game.box_score(idd)
+
 overview = mlbgame.game.overview(idd)
-print(box)
+print(overview)
 homescore = overview['home_team_runs']
 awayscore = overview['away_team_runs']
 status = overview['status']
@@ -53,56 +56,87 @@ panel_away_score.place(relx=0.445,rely=0.115,anchor=CENTER)
 panel_home_score.place(relx=0.442,rely=0.368,anchor=CENTER)
 
 #INNING
-top_inning=False
-bottom_inning=True
-inning="7"
-if top_inning==True:
-   toparrow = ImageTk.PhotoImage(Image.open('top_arrow.png'))
-   panel_toparrow = Label(root, image = toparrow, borderwidth=0, relief="groove",bg='grey15')
-   panel_toparrow.place(relx=0.533,rely=0.084,anchor=CENTER)
-elif bottom_inning==True:
-   bottomarrow = ImageTk.PhotoImage(Image.open('bottom_arrow.png'))
-   panel_bottomarrow = Label(root, image = bottomarrow, borderwidth=0, relief="groove",bg='grey15')
-   panel_bottomarrow.place(relx=0.533,rely=0.42,anchor=CENTER)
-else:
-    nothing="nothing?"
-
+toparrow = ImageTk.PhotoImage(Image.open('top_arrow.png'))
+bottomarrow = ImageTk.PhotoImage(Image.open('bottom_arrow.png'))
+panel_toparrow = Label(root, image = toparrow, borderwidth=0, relief="groove",bg='grey15')
+panel_bottomarrow = Label(root, image = bottomarrow, borderwidth=0, relief="groove",bg='grey15')
+inning='0'
 panel_inning = Label(root, text = inning, borderwidth=0, relief="groove", font=("century gothic bold", 125),bg='grey15',fg="white")
 panel_inning.place(relx=0.533,rely=0.25,anchor=CENTER)
+#top_inning=False
+#bottom_inning=False
+#if overview['inning_state'] == 'Top':
+#    top_inning=True
+#elif overview['inning_state'] == 'Bottom':
+#    bottom_inning=True
+#
+#inning="0"
+#inning= overview['inning']
+#if top_inning==True:
+#   toparrow = ImageTk.PhotoImage(Image.open('top_arrow.png'))
+#   panel_toparrow = Label(root, image = toparrow, borderwidth=0, relief="groove",bg='grey15')
+#   panel_toparrow.place(relx=0.533,rely=0.084,anchor=CENTER)
+#elif bottom_inning==True:
+#   bottomarrow = ImageTk.PhotoImage(Image.open('bottom_arrow.png'))
+#   panel_bottomarrow = Label(root, image = bottomarrow, borderwidth=0, relief="groove",bg='grey15')
+#   panel_bottomarrow.place(relx=0.533,rely=0.42,anchor=CENTER)
+#else:
+#    nothing="nothing?"
+#
+#panel_inning = Label(root, text = inning, borderwidth=0, relief="groove", font=("century gothic bold", 125),bg='grey15',fg="white")
+#panel_inning.place(relx=0.533,rely=0.25,anchor=CENTER)
 
 #OUTS
-one_out=True
-two_out=False
+#one_out=False
+#two_out=False
+#if overview['outs'] == '1':
+#    one_out=True
+#elif overview['outs'] == '2':
+#    two_out=True
+#
+#
+#
 out_icon = ImageTk.PhotoImage(Image.open('out.png'))
-if one_out==True:
-   panel_out_icon = Label(root, image = out_icon, borderwidth=0, relief="groove",bg='grey15')
-   panel_out_icon.place(relx=.916,rely=0.4,anchor=CENTER)
-elif two_out==True:
-   panel_out_icon = Label(root, image = out_icon, borderwidth=0, relief="groove",bg='grey15')
-   panel_out_icon_two = Label(root, image = out_icon, borderwidth=0, relief="groove",bg='grey15')
-   panel_out_icon.place(relx=.916,rely=0.4,anchor=CENTER)
-   panel_out_icon_two.place(relx=.9669,rely=0.4,anchor=CENTER)
-else:
-    nothing="nothing?"
+panel_out_icon = Label(root, image = out_icon, borderwidth=0, relief="groove",bg='grey15')
+panel_out_icon_two = Label(root, image = out_icon, borderwidth=0, relief="groove",bg='grey15')
 
+#if one_out==True:
+#panel_out_icon = Label(root, image = out_icon, borderwidth=0, relief="groove",bg='grey15')
+#   panel_out_icon.place(relx=.916,rely=0.4,anchor=CENTER)
+#elif two_out==True:
+#   panel_out_icon = Label(root, image = out_icon, borderwidth=0, relief="groove",bg='grey15')
+#   panel_out_icon_two = Label(root, image = out_icon, borderwidth=0, relief="groove",bg='grey15')
+#   panel_out_icon.place(relx=.916,rely=0.4,anchor=CENTER)
+#   panel_out_icon_two.place(relx=.9669,rely=0.4,anchor=CENTER)
+#else:
+#    nothing="nothing?"
+#
 #BASES
-first_base=True
-second_base=True
-third_base=True
+#first_base=False
+#second_base=False
+#third_base=False
+#if 'runner_on_1b' in overview:
+#    first_base=True
+#if 'runner_on_2b' in overview:
+#    second_base=True
+#if 'runner_on_3b' in overview:
+#    third_base=True
+#
 base_icon = ImageTk.PhotoImage(Image.open('onbase.png'))
-if first_base==True:
-   panel_first_base = Label(root, image = base_icon, borderwidth=0, relief="groove",bg='grey15')
-   panel_first_base.place(relx=.85,rely=0.25,anchor=CENTER)
-if second_base==True:
-   panel_second_base = Label(root, image = base_icon, borderwidth=0, relief="groove",bg='grey15')
-   panel_second_base.place(relx=.7775,rely=0.12,anchor=CENTER)
-if third_base==True:
-  panel_third_base = Label(root, image = base_icon, borderwidth=0, relief="groove",bg='grey15')
-  panel_third_base.place(relx=.705,rely=0.25,anchor=CENTER)
+#if first_base==True:
+#   panel_first_base = Label(root, image = base_icon, borderwidth=0, relief="groove",bg='grey15')
+#   panel_first_base.place(relx=.85,rely=0.25,anchor=CENTER)
+#if second_base==True:
+#   panel_second_base = Label(root, image = base_icon, borderwidth=0, relief="groove",bg='grey15')
+#   panel_second_base.place(relx=.7775,rely=0.12,anchor=CENTER)
+#if third_base==True:
+#  panel_third_base = Label(root, image = base_icon, borderwidth=0, relief="groove",bg='grey15')
+#  panel_third_base.place(relx=.705,rely=0.25,anchor=CENTER)
 
 
 #COUNT
-count="3-2"
+count="0-0"
+count=overview['balls']+"-"+overview['strikes']
 panel_count = Label(root,text=count, font=("century gothic bold", 100),bg='grey15',fg="white")
 panel_count.place(relx=0.625,rely=0.4,anchor=CENTER)
 
@@ -139,6 +173,7 @@ panel_home_errors.place(relx=0.964,rely=0.7785,anchor=CENTER)
 home_1=""
 away_1=""
 if status == 'Final':
+    box = mlbgame.game.box_score(idd)
     home_1 = box[1]['home']
     away_1 = box[1]['away']
     home_2 = box[2]['home']
@@ -157,48 +192,138 @@ if status == 'Final':
     away_8 = box[8]['away']
     home_9 = box[9]['home']
     away_9 = box[9]['away']
-    pass
-panel_home_1 = Label(root, text = home_1, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_away_1 = Label(root, text = away_1, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_home_2 = Label(root, text = home_2, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_away_2 = Label(root, text = away_2, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_home_3 = Label(root, text = home_3, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_away_3 = Label(root, text = away_3, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_home_4 = Label(root, text = home_4, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_away_4 = Label(root, text = away_4, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_home_5 = Label(root, text = home_5, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_away_5 = Label(root, text = away_5, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_home_6 = Label(root, text = home_6, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_away_6 = Label(root, text = away_6, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_home_7 = Label(root, text = home_7, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_away_7 = Label(root, text = away_7, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_home_8 = Label(root, text = home_8, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_away_8 = Label(root, text = away_8, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_home_9 = Label(root, text = home_9, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-panel_away_9 = Label(root, text = away_9, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
 
-panel_away_1.place(relx=0.15,rely=0.671,anchor=CENTER)
-panel_home_1.place(relx=0.15,rely=0.7785,anchor=CENTER)
-panel_away_2.place(relx=0.22,rely=0.671,anchor=CENTER)
-panel_home_2.place(relx=0.22,rely=0.7785,anchor=CENTER)
-panel_away_3.place(relx=0.29,rely=0.671,anchor=CENTER)
-panel_home_3.place(relx=0.29,rely=0.7785,anchor=CENTER)
-panel_away_4.place(relx=0.36,rely=0.671,anchor=CENTER)
-panel_home_4.place(relx=0.36,rely=0.7785,anchor=CENTER)
-panel_away_5.place(relx=0.425,rely=0.671,anchor=CENTER)
-panel_home_5.place(relx=0.425,rely=0.7785,anchor=CENTER)
-panel_away_6.place(relx=0.496,rely=0.671,anchor=CENTER)
-panel_home_6.place(relx=0.496,rely=0.7785,anchor=CENTER)
-panel_away_7.place(relx=0.565,rely=0.671,anchor=CENTER)
-panel_home_7.place(relx=0.565,rely=0.7785,anchor=CENTER)
-panel_away_8.place(relx=0.634,rely=0.671,anchor=CENTER)
-panel_home_8.place(relx=0.634,rely=0.7785,anchor=CENTER)
-panel_away_9.place(relx=0.704,rely=0.671,anchor=CENTER)
-panel_home_9.place(relx=0.704,rely=0.7785,anchor=CENTER)
+    panel_home_1 = Label(root, text = home_1, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_away_1 = Label(root, text = away_1, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_home_2 = Label(root, text = home_2, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_away_2 = Label(root, text = away_2, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_home_3 = Label(root, text = home_3, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_away_3 = Label(root, text = away_3, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_home_4 = Label(root, text = home_4, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_away_4 = Label(root, text = away_4, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_home_5 = Label(root, text = home_5, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_away_5 = Label(root, text = away_5, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_home_6 = Label(root, text = home_6, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_away_6 = Label(root, text = away_6, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_home_7 = Label(root, text = home_7, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_away_7 = Label(root, text = away_7, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_home_8 = Label(root, text = home_8, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_away_8 = Label(root, text = away_8, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_home_9 = Label(root, text = home_9, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+    panel_away_9 = Label(root, text = away_9, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
+
+    panel_away_1.place(relx=0.15,rely=0.671,anchor=CENTER)
+    panel_home_1.place(relx=0.15,rely=0.7785,anchor=CENTER)
+    panel_away_2.place(relx=0.22,rely=0.671,anchor=CENTER)
+    panel_home_2.place(relx=0.22,rely=0.7785,anchor=CENTER)
+    panel_away_3.place(relx=0.29,rely=0.671,anchor=CENTER)
+    panel_home_3.place(relx=0.29,rely=0.7785,anchor=CENTER)
+    panel_away_4.place(relx=0.36,rely=0.671,anchor=CENTER)
+    panel_home_4.place(relx=0.36,rely=0.7785,anchor=CENTER)
+    panel_away_5.place(relx=0.425,rely=0.671,anchor=CENTER)
+    panel_home_5.place(relx=0.425,rely=0.7785,anchor=CENTER)
+    panel_away_6.place(relx=0.496,rely=0.671,anchor=CENTER)
+    panel_home_6.place(relx=0.496,rely=0.7785,anchor=CENTER)
+    panel_away_7.place(relx=0.565,rely=0.671,anchor=CENTER)
+    panel_home_7.place(relx=0.565,rely=0.7785,anchor=CENTER)
+    panel_away_8.place(relx=0.634,rely=0.671,anchor=CENTER)
+    panel_home_8.place(relx=0.634,rely=0.7785,anchor=CENTER)
+    panel_away_9.place(relx=0.704,rely=0.671,anchor=CENTER)
+    panel_home_9.place(relx=0.704,rely=0.7785,anchor=CENTER)
+    pass
+
+
+
+
+
+#LITTLE LOOP
+
+def update_bases():
+    overview = mlbgame.game.overview(idd)
+    first_base=False
+    second_base=False
+    third_base=False
+    if 'runner_on_1b' in overview:
+        first_base=True
+    if 'runner_on_2b' in overview:
+        second_base=True
+    if 'runner_on_3b' in overview:
+        third_base=True
+
+    if first_base==True:
+       panel_first_base = Label(root, image = base_icon, borderwidth=0, relief="groove",bg='grey15')
+       panel_first_base.place(relx=.85,rely=0.25,anchor=CENTER)
+    if second_base==True:
+       panel_second_base = Label(root, image = base_icon, borderwidth=0, relief="groove",bg='grey15')
+       panel_second_base.place(relx=.7775,rely=0.12,anchor=CENTER)
+    if third_base==True:
+      panel_third_base = Label(root, image = base_icon, borderwidth=0, relief="groove",bg='grey15')
+      panel_third_base.place(relx=.705,rely=0.25,anchor=CENTER)
+    root.after(1000, update_bases)
+
+def update_outs():
+    global panel_out_icon
+    global panel_out_icon_two
+    print("Hello update")
+    overview = mlbgame.game.overview(idd)
+    #OUTS
+    one_out=False
+    two_out=False
+    if overview['outs'] == '1':
+        one_out=True
+        #panel_out_icon_two.place_forget()
+    elif overview['outs'] == '2':
+        two_out=True
+    else:
+        pass
+
+
+
+
+    if one_out==True:
+       panel_out_icon.place(relx=.916,rely=0.4,anchor=CENTER)
+    elif two_out==True:
+       panel_out_icon.place(relx=.916,rely=0.4,anchor=CENTER)
+       panel_out_icon_two.place(relx=.9669,rely=0.4,anchor=CENTER)
+    else:
+        panel_out_icon.place_forget()
+        panel_out_icon_two.place_forget()
+
+    root.after(1000, update_outs)
+
+
+def update_inning():
+    global panel_toparrow
+    global panel_bottomarrow
+    global inning
+    global panel_inning
+    overview = mlbgame.game.overview(idd)
+    top_inning=False
+    bottom_inning=False
+    if overview['inning_state'] == 'Top':
+        top_inning=True
+    elif overview['inning_state'] == 'Bottom':
+        bottom_inning=True
+
+    inning="0"
+    inning= overview['inning']
+    if top_inning==True:
+       panel_bottomarrow.place_forget()
+       panel_toparrow.place(relx=0.533,rely=0.084,anchor=CENTER)
+    elif bottom_inning==True:
+       panel_toparrow.place_forget()
+       panel_bottomarrow.place(relx=0.533,rely=0.42,anchor=CENTER)
+    else:
+        panel_toparrow.place_forget()
+        panel_bottomarrow.place_forget()
+    panel_inning.config(text=inning)
+    root.after(1000, update_inning)
 
 
 #IF FINISHED WINDOW
 if status == 'Final':
+    final_message=Label(root,text='Final',width=27,height=9, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="red")
+    final_message.place(relx=0.75,rely=0.1,anchor=CENTER)
     if int(overview['home_team_runs']) > int(overview['away_team_runs']) and overview['home_name_abbrev'] == 'NYY' :
         message="Yankees ("+overview['home_win']+"-"+overview['home_loss'] +") Win"
     elif int(overview['away_team_runs']) > int(overview['home_team_runs']) and overview['away_name_abbrev'] == 'NYY' :
@@ -212,8 +337,11 @@ if status == 'Final':
 
         pass
     panel_message= Label(root, text = message, borderwidth=0, relief="groove", font=("century gothic bold", 60),bg='grey15',fg="white")
-    panel_message.place(relx=0.75,rely=0.1,anchor=CENTER)
-
+    panel_message.place(relx=0.75,rely=0.3,anchor=CENTER)
+elif status == 'In Progress':
+    update_inning()
+    update_outs()
+    update_bases()
     pass
 
 #RUN WINDOW
